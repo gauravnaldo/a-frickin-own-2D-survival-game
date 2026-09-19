@@ -41,3 +41,14 @@ def draw(self, surface):
 
 player = Player(WIDTH // 2, HEIGHT // 2)
 player.draw(screen)
+
+#yo fellas lets callibrate keyboard movements :)
+def move(self, keys):
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            self.x -= self.speed
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            self.x += self.speed
+        if keys[pygame.K_UP] or keys[pygame.K_w]:
+            self.y -= self.speed
+        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
+            self.y += self.speed
