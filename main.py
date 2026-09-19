@@ -10,13 +10,17 @@ DARK_GRAY = (40, 40, 40)
 
 def main():
     running = True
+    player = Player(WIDTH // 2, HEIGHT // 2)  # <-- Add this line here
+    
     while running:
         screen.fill(DARK_GRAY)
-
+        keys = pygame.key.get_pressed()
+        player.move(keys)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
+        player.draw(screen)
         pygame.display.flip()
         clock.tick(60)
 
@@ -52,3 +56,7 @@ def move(self, keys):
             self.y -= self.speed
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             self.y += self.speed
+            
+#for concentrating the player on screen so it doesn't escape from the screen or jump off like some people :}
+self.x = max(0, min(WIDTH - self.size, self.x))
+        self.y = max(0, min(HEIGHT - self.size, self.y))
