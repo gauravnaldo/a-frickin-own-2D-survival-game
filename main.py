@@ -35,3 +35,9 @@ class Player:
         self.y = y
         self.size = 20
         self.speed = 5
+
+def draw(self, surface):
+        pygame.draw.rect(surface, BLUE, (self.x, self.y, self.size, self.size))
+
+player = Player(WIDTH // 2, HEIGHT // 2)
+player.draw(screen)
