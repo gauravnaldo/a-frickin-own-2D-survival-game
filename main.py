@@ -24,3 +24,14 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#setting up the character
+
+BLUE = (0, 100, 255)
+
+class Player:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.size = 20
+        self.speed = 5
