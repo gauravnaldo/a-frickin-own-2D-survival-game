@@ -1,4 +1,6 @@
 import pygame
+import random
+import math
 
 # 1. Setup
 pygame.init()
@@ -9,8 +11,9 @@ clock = pygame.time.Clock()
 
 DARK_GRAY = (40, 40, 40)
 BLUE = (0, 100, 255)
+RED = (255, 0, 0)
 
-# 2. Define the Player class BEFORE calling it
+# 2. Classes
 class Player:
     def __init__(self, x, y):
         self.x = x
@@ -36,46 +39,7 @@ class Player:
     def draw(self, surface):
         pygame.draw.rect(surface, BLUE, (self.x, self.y, self.size, self.size))
 
-# 3. Main game loop
-def main():
-    running = True
-    player = Player(WIDTH // 2, HEIGHT // 2)
-    
-    while running:
-        screen.fill(DARK_GRAY)
-        
-        # Movement
-        keys = pygame.key.get_pressed()
-        player.move(keys)
-        
-        # Events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-                
-        # Rendering
-        player.draw(screen)
-        
-        pygame.display.flip()
-        clock.tick(60)
-
-    pygame.quit()
-
-# 4. Triggering execution at the VERY bottom
-if __name__ == "__main__":
-    main()
-
-#yo yo yo its our day 2 of updating the code ,lets begin
-#lets code for spawning our enemies 
-
-import pygame
-import random 
-import math   
-
-BLUE = (0, 100, 255)
-RED = (255, 0, 0)   
-
-#lets give class to OUR enemies
+# lets give class to OUR enemies
 class Enemy:
     def __init__(self):
         # they spawn randomly on the edges of the screen
@@ -89,5 +53,56 @@ class Enemy:
         self.size = 20
         self.speed = 2
 
+    def move_towards(self, target_x, target_y):
+        dx = target_x - self.x
+        dy = target_y - self.y
+        dist = math.hypot(dx, dy)
+        if dist > 0:
+            self.x += (dx / dist) * self.speed
+            self.y += (dy / dist) * self.speed
+
     def draw(self, surface):
         pygame.draw.rect(surface, RED, (self.x, self.y, self.size, self.size))
+
+
+# 3. Main game loop
+def main():
+    running = True
+    player = Player(WIDTH // 2, HEIGHT // 2)
+    enemies = []
+    
+    # Custom event to spawn an enemy every 1000 milliseconds (1 second)
+    SPAWN_ENEMY = pygame.USEREVENT + 1
+    pygame.time.set_timer(SPAWN_ENEMY, 1000)
+    
+    while running:
+        screen.fill(DARK_GRAY)
+        
+        # Movement
+        keys = pygame.key.get_pressed()
+        player.move(keys)
+        
+        for enemy in enemies:
+            enemy.move_towards(player.x, player.y)
+        
+        # Events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            # Listen for the timer and spawn an enemy
+            if event.type == SPAWN_ENEMY:
+                enemies.append(Enemy())
+                
+        # Rendering
+        player.draw(screen)
+        for enemy in enemies:
+            enemy.draw(screen)
+        
+        pygame.display.flip()
+        clock.tick(60)
+
+    pygame.quit()
+
+# 4. Triggering execution at the VERY bottom
+if __name__ == "__main__":
+    main()
