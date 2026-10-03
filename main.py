@@ -125,10 +125,18 @@ def main():
                 new_speed = max(200, 1000 - (score * 20))
                 pygame.time.set_timer(SPAWN_ENEMY, new_speed)
                 
-        # Rendering
+# Rendering
         player.draw(screen)
         for enemy in enemies:
             enemy.draw(screen)
+            
+        # Score and Game Over Text
+        if game_over:
+            game_over_text = font.render(f"GAME OVER! Score: {score} - Press SPACE to Restart", True, WHITE)
+            screen.blit(game_over_text, (WIDTH // 2 - 250, HEIGHT // 2))
+        else:
+            score_text = font.render(f"Score: {score}", True, WHITE)
+            screen.blit(score_text, (10, 10))
         
         pygame.display.flip()
         clock.tick(60)
