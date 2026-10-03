@@ -12,6 +12,11 @@ clock = pygame.time.Clock()
 DARK_GRAY = (40, 40, 40)
 BLUE = (0, 100, 255)
 RED = (255, 0, 0)
+WHITE = (255, 255, 255)
+ 
+score = 0
+game_over = False
+font = pygame.font.SysFont(None, 36)
 
 # 2. Classes
 class Player:
