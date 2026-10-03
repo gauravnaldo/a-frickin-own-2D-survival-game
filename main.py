@@ -76,6 +76,11 @@ def main():
     player = Player(WIDTH // 2, HEIGHT // 2)
     enemies = []
     
+    score = 0
+    game_over = False
+    font = pygame.font.SysFont(None, 36)
+    
+    
     # Custom event to spawn an enemy every 1000 milliseconds (1 second)
     SPAWN_ENEMY = pygame.USEREVENT + 1
     pygame.time.set_timer(SPAWN_ENEMY, 1000)
