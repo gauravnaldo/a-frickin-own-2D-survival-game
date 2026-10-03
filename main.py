@@ -103,13 +103,27 @@ def main():
                 if player_rect.colliderect(enemy_rect):
                     game_over = True
         
-        # Events
+# Events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            # Listen for the timer and spawn an enemy
-            if event.type == SPAWN_ENEMY:
+                
+            # SPACE dabane pe restart
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and game_over:
+                    player = Player(WIDTH // 2, HEIGHT // 2)
+                    enemies.clear()
+                    score = 0
+                    game_over = False
+                    pygame.time.set_timer(SPAWN_ENEMY, 1000)
+            
+            # Listen for the timer and spawn an enemy :)
+            if event.type == SPAWN_ENEMY and not game_over:
                 enemies.append(Enemy())
+                score += 1
+                # Make it harder
+                new_speed = max(200, 1000 - (score * 20))
+                pygame.time.set_timer(SPAWN_ENEMY, new_speed)
                 
         # Rendering
         player.draw(screen)
