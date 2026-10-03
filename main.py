@@ -88,12 +88,20 @@ def main():
     while running:
         screen.fill(DARK_GRAY)
         
-        # Movement
-        keys = pygame.key.get_pressed()
-        player.move(keys)
-        
-        for enemy in enemies:
-            enemy.move_towards(player.x, player.y)
+# Movement and Collision
+        if not game_over:
+            keys = pygame.key.get_pressed()
+            player.move(keys)
+            
+            for enemy in enemies:
+                enemy.move_towards(player.x, player.y)
+                
+                # Hitbox collision check
+                player_rect = pygame.Rect(player.x, player.y, player.size, player.size)
+                enemy_rect = pygame.Rect(enemy.x, enemy.y, enemy.size, enemy.size)
+                
+                if player_rect.colliderect(enemy_rect):
+                    game_over = True
         
         # Events
         for event in pygame.event.get():
